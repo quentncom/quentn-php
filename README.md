@@ -11,7 +11,7 @@ You can install *quentn-php* by [downloading (.zip)](https://github.com//quentnc
 
 `git clone https://github.com/quentncom/quentn-php.git`
 
-After download PHP SDK from GitHub, run the update command:
+After download PHP SDK from GitHub, run the following command:
 
     composer isntall
 
@@ -44,13 +44,28 @@ After download PHP SDK from GitHub, run the update command:
     //And in same way we can perform following tasks
     
     /**
+    //find contact by id
     $get_response = $quentn->contacts()->findContactById($contactId, 'first_name, mail');         
+    
+    //find contact by email address
     $get_response = $quentn->contacts()->findContactByMail($contactMail);         
+    
+    //update contact
     $get_response = $quentn->contacts()->updateContact($contactId, $data);         
+    
+    //delete contact
     $get_response = $quentn->contacts()->deleteContact($contactId);     
+    
+    //get all terms of a contact
     $get_response = $quentn->contacts()->getContactTerms($contactId);
-    $get_response = $quentn->contacts()->setContactTerms($contactId, $terms); //overwrite all terms 
-    $get_response = $quentn->contacts()->addContactTerms($contactId, $terms); //add new term
+    
+    //overwrite all terms of a contact
+    $get_response = $quentn->contacts()->setContactTerms($contactId, $terms);  
+    
+    //add term for a contact
+    $get_response = $quentn->contacts()->addContactTerms($contactId, $terms);
+    
+    //delete terms of a contact
     $get_response = $quentn->contacts()->deleteContactTerms($contactId, $terms);
     **/     
     
@@ -85,9 +100,16 @@ After download PHP SDK from GitHub, run the update command:
         }
         
         /**
+        //find term by name
         $get_response = $quentn->terms()->findTermByName($termName);
+        
+        //create new term
         $get_response = $quentn->terms()->createTerm($data);
+        
+        //update term
         $get_response = $quentn->terms()->updateTerm($termId, $data);
+        
+        //delete term
         $get_response = $quentn->terms()->deleteTerm($termId);
         **/
 

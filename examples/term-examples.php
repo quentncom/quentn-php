@@ -13,7 +13,7 @@ if (!$quentn->test()) {
     exit;
 }
 
-/**
+/*
     //response include three main elements, data, status and rateLimits
     Array(
         [data] => Array(

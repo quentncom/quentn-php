@@ -1,11 +1,11 @@
 {
-    "name": "Quentn/php-sdk",
+    "name": "quentn/php-sdk",
     "description": "Official PHP SDK for the Quentn Api",
     "keywords": [ "quentn", "marketing-automation", "email-marketing", "api" ],
     "license": "MIT",
     "authors": [
         {
-            "name": "Quentn"
+            "name": "Quentn.com GmbH"
         }
     ],
     "require": {

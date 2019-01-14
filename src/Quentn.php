@@ -4,12 +4,15 @@ namespace Quentn;
 use GuzzleHttp\Client;
 use Exception;
 use Quentn\Exceptions\QuentnException;
+use Quentn\Client\ContactClient;
+use Quentn\Client\TermClient;
+use Quentn\Client\OAuthClient;
 
 /**
  * Description of QuentnPhpSdkClient
  * @author ckoen
  */
-class QuentnPhpSdkClient implements QuentnPHPClientBase {
+class Quentn implements QuentnBase {
 
     protected $httpClient;
     protected $apiKey;
@@ -34,6 +37,8 @@ class QuentnPhpSdkClient implements QuentnPHPClientBase {
     }
 
     /**
+     * Varify app-key and base-url
+     *
      * @return bool
      */
     public function test() {
@@ -74,10 +79,13 @@ class QuentnPhpSdkClient implements QuentnPHPClientBase {
     }
 
     /**
-     * @param $endPoint
-     * @param string $method
-     * @param null $vars
-     * @return array|string
+     *
+     * Make a http request
+     *
+     * @param $endPoint endpoint after base url e.g https://example.com/public/api/v1/{endpoint} , {endpoint} = terms
+     * @param string $method http method e.g GET, POST, PUT, DELETE
+     * @param array $vars (optional) data for http request e.g array("first_name" => "John")
+     * @return array
      */
     public function call($endPoint, $method = "GET", $vars = null) {
 
@@ -125,14 +133,16 @@ class QuentnPhpSdkClient implements QuentnPHPClientBase {
 
 
     /**
+     * Make a oauth http request
+     *
      * @param $oauthBaseUrl
-     * @param string $method
-     * @param null $vars
-     * @return array|string
+     * @param array $vars data for http request
+     * @return array
      */
-    public function callOauth($oauthBaseUrl, $method = "GET", $vars = null) {
+    public function callOauth($oauthBaseUrl, $vars = null) {
 
         //build request
+        $method = "POST";
         $request_arr = [
             "headers" => [
                 'Content-Type' => 'application/x-www-form-urlencoded'
@@ -144,8 +154,8 @@ class QuentnPhpSdkClient implements QuentnPHPClientBase {
         }
 
         //make oauth call
-        try {
-            $response = $this->httpClient->request(strtoupper($method), $oauthBaseUrl, $request_arr);
+            $response = $this->httpClient->request($method, $oauthBaseUrl, $request_arr);
+            $return = [];
             //get Body
             $body = $response->getBody();
             if (!empty($body)) {
@@ -153,13 +163,10 @@ class QuentnPhpSdkClient implements QuentnPHPClientBase {
                 $return = (array) json_decode($json_body, true);
             }
             return $return;
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
     }
 
     /**
-     * @return QuentnPhpSdkContactClient
+     * @return ContactClient
      * @throws QuentnException
      */
     public function contacts() {
@@ -170,11 +177,11 @@ class QuentnPhpSdkClient implements QuentnPHPClientBase {
             throw new QuentnException("Base URL is not set");
         }
 
-        return ($this->contactClient ? $this->contactClient : $this->contactClient = new QuentnPhpSdkContactClient($this));
+        return ($this->contactClient ? $this->contactClient : $this->contactClient = new ContactClient($this));
     }
 
     /**
-     * @return QuentnPhpSdkTermClient
+     * @return TermClient
      * @throws QuentnException
      */
     public function terms() {
@@ -184,14 +191,14 @@ class QuentnPhpSdkClient implements QuentnPHPClientBase {
         if (!isset($this->baseUrl)) {
             throw new QuentnException("Base URL is not set");
         }
-        return ($this->termClient ? $this->termClient : $this->termClient = new QuentnPhpSdkTermClient($this));
+        return ($this->termClient ? $this->termClient : $this->termClient = new TermClient($this));
     }
 
     /**
-     * @return QuentnPhpSdkOAuthClient
+     * @return OAuthClient
      */
     public function oauth() {
-        return ($this->oauthClient ? $this->oauthClient : $this->oauthClient = new QuentnPhpSdkOAuthClient($this));
+        return ($this->oauthClient ? $this->oauthClient : $this->oauthClient = new OAuthClient($this));
     }
 
 }

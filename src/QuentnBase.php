@@ -1,6 +1,6 @@
 <?php
 namespace Quentn;
-interface QuentnPHPClientBase {    
+interface QuentnBase {
     public function call($endPoint, $method = "GET", $vars = null);
     public function test();
 }

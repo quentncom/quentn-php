@@ -10,9 +10,7 @@ You need to install [Composer](http://getcomposer.org) to manage dependencies.
 Run the following Composer command to install the latest stable version of Quentn PHP SDK.
 
     composer require quentn/php-sdk
-
-##Examples
-
+## Examples
 We need to add *autoload.php* at the top of each file
        
     require __DIR__ . './quentn-php/vendor/autoload.php';
@@ -25,8 +23,55 @@ Response include three main elements, data, status and rateLimits
 
 **Rate Limits:** All calls within the Web API are allotted a specific number of requests per refresh period.     
  Each API response contains limit numbers, remaining and reset time.
-     
-##Contact API    
+
+### Contact API Example
+
+	require __DIR__ . './quentn-php/vendor/autoload.php'; 
+    $quentn = new Quentn\Quentn([
+        'api_key' => 'API_KEY',
+        'base_url' => 'BASE_URL',
+    ]);
+    
+    if (!$quentn->test()) {
+        echo "key doesn't seem to work";
+        exit;
+    }
+    //create contact       
+    $data = [
+            "first_name" => "Johnn",
+            "family_name" => "Doe",
+            "mail" => "johndoe@example.com",
+        ];
+        try {
+        $get_response = $quentn->contacts()->createContact($data);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+        if($get_response['status']=='200'){
+            //get id of newly created contact
+            $cid = $get_response['data']['id'];
+        }
+        else {
+            echo 'Unable to proceed. Status Code:'.$get_response['status'];
+        }
+  
+    // Get all terms of a contact
+     try {
+            $get_response = $quentn->contacts()->getContactTerms($contactId);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+        if($get_response['status']=='200'){
+            $terms = $get_response['data'];
+            foreach ($terms as $term) {
+                echo $term['name']."\n";
+            }
+        }
+        else {
+            echo 'Unable to proceed. Status Code:'.$get_response['status'];
+        }
+             
+  
 With Contact Api, you can perform following functions
 
 **GET a Contact by Id**
@@ -86,96 +131,10 @@ User can delete terms of a contact
     deleteContactTerms((int) $id, (array)$terms);
 
 
-### Contact API examples
-
-	require __DIR__ . './quentn-php/vendor/autoload.php'; 
-    $quentn = new Quentn\Quentn([
-        'api_key' => 'API_KEY',
-        'base_url' => 'BASE_URL',
-    ]);
-    
-    if (!$quentn->test()) {
-        echo "key doesn't seem to work";
-        exit;
-    }
-    //create contact       
-    $data = [
-            "first_name" => "Johnn",
-            "family_name" => "Doe",
-            "mail" => "johndoe@example.com",
-        ];
-        try {
-        $get_response = $quentn->contacts()->createContact($data);
-        } catch (Exception $e) {
-            echo $e->getMessage();
-        }
-        if($get_response['status']=='200'){
-            //get id of newly created contact
-            $cid = $get_response['data']['id'];
-        }
-        else {
-            echo 'Unable to proceed. Status Code:'.$get_response['status'];
-        }
-  
-    // Get all terms of a contact
-     try {
-            $get_response = $quentn->contacts()->getContactTerms($contactId);
-        } catch (Exception $e) {
-            echo $e->getMessage();
-        }
-        if($get_response['status']=='200'){
-            $terms = $get_response['data'];
-            foreach ($terms as $term) {
-                echo $term['name']."\n";
-            }
-        }
-        else {
-            echo 'Unable to proceed. Status Code:'.$get_response['status'];
-        }
     
 [Click here](https://github.com/quentncom/quentn-php/blob/master/examples/contact-examples.php/) to view full example of usage of contact API   
-    
-##Term API
-    
-With Term Api, you can perform following functions
 
-**GET Terms**
-
-User can find a list of all terms
-
-    getTerms((int)$offset = 0, (int)$limit = 500);
-
-**GET Term by ID**
-
-User can find term by Id
-
-    findTermById((int)$termId);
-
-**Get Term by Name**
-
-User can find term by name
-    
-    findTermByName((int)$termName);
-
-**Create Term**
-
-User can create terms
-
-    createTerm((array)$data);
-
-**Update Term**
-
-User can update term
-
-    updateTerm((int)$id, (array)$data);
-
-**Delete Term**
-
-User can delelte term
-
-    deleteTerm((int)$termId);
-
-### Term API examples
+### Term API Example
    
         require __DIR__ . './quentn-php/vendor/autoload.php'; 
         $quentn = new Quentn\Quentn([
@@ -222,11 +181,51 @@ User can delelte term
             }
             else {
                 echo 'Unable to proceed. Status Code:'.$get_response['status'];
-            }
+            }    
+    
+With Term Api, you can perform following functions
+
+**GET Terms**
+
+User can find a list of all terms
+
+    getTerms((int)$offset = 0, (int)$limit = 500);
+
+**GET Term by ID**
+
+User can find term by Id
+
+    findTermById((int)$termId);
+
+**Get Term by Name**
+
+User can find term by name
+    
+    findTermByName((int)$termName);
+
+**Create Term**
+
+User can create terms
+
+    createTerm((array)$data);
+
+**Update Term**
+
+User can update term
+
+    updateTerm((int)$id, (array)$data);
+
+**Delete Term**
+
+User can delelte term
+
+    deleteTerm((int)$termId);
+
+
                
 [Click here](https://github.com/quentncom/quentn-php/blob/master/examples/term-examples.php/) to view full example of usage of term API
 
-##OAuth
+## OAuth
 
 To start your OAuth process, you need to register your app with the Quentn.
 After registration your will get Client ID and Client Secret.
@@ -236,9 +235,9 @@ After registration your will get Client ID and Client Secret.
 Once you got Client ID and Client Secret, you need to call function *setApp*  with the following
 variables 
 
-**client_id:** The client ID you received when you created your website with Quentn
+**client_id:** The client ID you received when you created your app with Quentn
 
-**client_secret:** The client ID you received when you created your website with Quentn  
+**client_secret:** The client ID you received when you created your app with Quentn  
 
 **redirect_url:** Indicates the URI to return the user after authorization. Domain must be one of the domains you already registered with quentn. For example, if you registered *example.com*, then you can use *example.com/my/redirect/url*
     
@@ -259,7 +258,7 @@ In return you will get authorization url, i.e
     https://my.quentn.com/public/api/v1/oauth/?client_id=CLIENT_ID&redirect_uri=REDIRECT_URI&response_type=code&scope=all&state=4a4c2ZD
 
 
-**client_id:** As mentioned above, the client ID you received when you created your website with Quentn  
+**client_id:** As mentioned above, the client ID you received when you created your app with Quentn  
 
 **redirect_uri:** As mentioned above, it indicates the URI to return the user after authorization. Domain must be one of the domains you already registered with quentn. For example, if you registered *example.com*, then you can use *example.com/my/redirect/url*
 

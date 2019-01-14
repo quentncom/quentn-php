@@ -6,9 +6,9 @@ if(empty(session_id())) {
 
 $quentn = new Quentn\Quentn();
 $quentn->oauth()->setApp([
-    'client_id' => '10',
-    'client_secret' => 'FnIDswFOfSAah_BC7i0NDBSCh_PYmXjqtg9olvDyVj0',
-    'redirect_uri' => 'http://waqas.dev.quentn.com/sdk/quentn-php/examples/oauth-examples.php',
+    'client_id' => 'CLIENT_ID',
+    'client_secret' => 'CLIENT_SECRET',
+    'redirect_uri' => 'REDIRECT_URL',
 ]);
 
 if($quentn->oauth()->authorize()) {

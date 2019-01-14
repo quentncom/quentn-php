@@ -1,8 +1,8 @@
 <?php
 require __DIR__ . './../vendor/autoload.php';
 $quentn = new Quentn\Quentn([
-    'api_key' => 'XkLAYyddP5vUaeOxIHjqROKQa_WTp6kdt76BkbhU3qA',
-    'base_url' => 'https://pijqjq.eu-1.quentn.com/public/api/v1/',
+    'api_key' => 'API_KEY',
+    'base_url' => 'BASE_URL',
 ]);
 
 /*

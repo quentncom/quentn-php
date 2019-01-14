@@ -25,9 +25,9 @@ if (!$quentn->test()) {
             [reset] => (int)
         )
     )
-/*
+*/
 
-    /*
+    /**
     * get list of all terms
     */
     try {

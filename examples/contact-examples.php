@@ -24,7 +24,9 @@ if (!$quentn->test()) {
             [reset] => (int)
         )
     )
-/*
+*/
+
+    /**
      * Find contact by id, fields are optional
      */
     try {

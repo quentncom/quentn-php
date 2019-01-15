@@ -13,7 +13,7 @@ Run the following Composer command to install the latest stable version of Quent
 ## Examples
 We need to add *autoload.php* at the top of each file
        
-    require __DIR__ . './quentn-php/vendor/autoload.php';
+    require __DIR__ . './vendor/autoload.php';
 Response include three main elements, data, status and rateLimits         
     
 **Data:** Data depends on your request, it can be contact details like name, email etc, it can be

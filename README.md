@@ -26,7 +26,7 @@ Response include three main elements, data, status and rateLimits
 
 ### Contact API Example
 
-	require __DIR__ . './quentn-php/vendor/autoload.php'; 
+	require __DIR__ . './vendor/autoload.php'; 
     $quentn = new Quentn\Quentn([
         'api_key' => 'API_KEY',
         'base_url' => 'BASE_URL',
@@ -136,7 +136,7 @@ User can delete terms of a contact
 
 ### Term API Example
    
-        require __DIR__ . './quentn-php/vendor/autoload.php'; 
+        require __DIR__ . './vendor/autoload.php'; 
         $quentn = new Quentn\Quentn([
             'api_key' => 'API_KEY',
             'base_url' => 'BASE_URL',
@@ -277,7 +277,7 @@ To check if user is successfully authorized, you can use following function.
     
 ### OAuth example
     
-        require __DIR__ . './quentn-php/vendor/autoload.php'; 
+        require __DIR__ . './vendor/autoload.php'; 
         $quentn = new Quentn\Quentn();        
         $quentn->oauth()->setApp([
             'client_id' => 'CLIENT_ID',

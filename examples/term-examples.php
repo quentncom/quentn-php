@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . './../vendor/autoload.php';
+require __DIR__ . './vendor/autoload.php';
 $quentn = new Quentn\Quentn([
     'api_key' => 'API_KEY',
     'base_url' => 'BASE_URL',

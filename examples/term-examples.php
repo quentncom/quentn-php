@@ -31,50 +31,35 @@ if (!$quentn->test()) {
     * get list of all terms
     */
     try {
-        $get_response = $quentn->terms()->getTerms();
+      $get_response = $quentn->terms()->getTerms();
+      $terms = $get_response['data'];
+      foreach ($terms as $term) {
+         echo $term['name']."\n";
+      }
     } catch (Exception $e) {
         echo $e->getMessage();
-    }
-    if($get_response['status']=='200'){
-        $terms = $get_response['data'];
-        foreach ($terms as $term) {
-            echo $term['name'];
-        }
-    }
-    else {
-        echo 'Unable to proceed. Status Code:'.$get_response['status'];
     }
 
     /*
     * Find terms by ID
     */
     try {
-        $get_response = $quentn->terms()->findTermById(7);
+      $get_response = $quentn->terms()->findTermById($termId);
+      echo $get_response['data']['name']."\n";
+      echo $get_response['data']['description'];
     } catch (Exception $e) {
         echo $e->getMessage();
-    }
-    if($get_response['status']=='200'){
-        echo $get_response['data']['name'];
-        echo $get_response['data']['description'];
-    }
-    else {
-        echo 'Unable to proceed. Status Code:'.$get_response['status'];
     }
 
     /*
     * Find terms by Name
     */
     try {
-        $get_response = $quentn->terms()->findTermByName('Tag AB');
+      $get_response = $quentn->terms()->findTermByName($termName);
+      echo $get_response['data']['name']."\n";
+      echo $get_response['data']['description'];
     } catch (Exception $e) {
         echo $e->getMessage();
-    }
-    if($get_response['status']=='200'){
-        echo $get_response['data']['name'];
-        echo $get_response['data']['description'];
-    }
-    else {
-        echo 'Unable to proceed. Status Code:'.$get_response['status'];
     }
 
     /*
@@ -85,15 +70,10 @@ if (!$quentn->test()) {
         "description"=> "Example term description",
     ];
     try {
-        $get_response = $quentn->terms()->createTerm($data);
+      $get_response = $quentn->terms()->createTerm($data);
+      $term_id = $get_response['data']['id'];
     } catch (Exception $e) {
         echo $e->getMessage();
-    }
-    if($get_response['status']=='200'){
-        $term_id = $get_response['data']['id'];
-    }
-    else {
-        echo 'Unable to proceed. Status Code:'.$get_response['status'];
     }
 
     /*
@@ -104,28 +84,18 @@ if (!$quentn->test()) {
         "description"=> "Example term updated description",
     ];
     try {
-        $get_response = $quentn->terms()->updateTerm(13, $data);
+      $get_response = $quentn->terms()->updateTerm($termId, $data);
+      echo "Term Updated successfully";
     } catch (Exception $e) {
         echo $e->getMessage();
-    }
-    if($get_response['data']['success']) {
-        echo "Term Updated successfully";
-    }
-    else {
-        echo "Term updation failed";
     }
 
     /*
      * Delete term
      */
     try {
-        $get_response = $quentn->terms()->deleteTerm(13, $data);
+      $get_response = $quentn->terms()->deleteTerm($termId, $data);
+      echo "Term Deleted successfully";
     } catch (Exception $e) {
         echo $e->getMessage();
-    }
-    if($get_response['data']['success']) {
-        echo "Term Deleted successfully";
-    }
-    else {
-        echo "Term deletion failed";
     }

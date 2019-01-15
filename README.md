@@ -43,34 +43,23 @@ Response include three main elements, data, status and rateLimits
             "mail" => "johndoe@example.com",
         ];
         try {
-        $get_response = $quentn->contacts()->createContact($data);
+            $get_response = $quentn->contacts()->createContact($data);
+            //get id of newly created contact
+            $contact_id = $get_response['data']['id'];
         } catch (Exception $e) {
             echo $e->getMessage();
         }
-        if($get_response['status']=='200'){
-            //get id of newly created contact
-            $cid = $get_response['data']['id'];
-        }
-        else {
-            echo 'Unable to proceed. Status Code:'.$get_response['status'];
-        }
-  
+       
     // Get all terms of a contact
      try {
-            $get_response = $quentn->contacts()->getContactTerms($contactId);
-        } catch (Exception $e) {
+          $get_response = $quentn->contacts()->getContactTerms($contactId);
+          $terms = $get_response['data'];
+          foreach ($terms as $term) {
+             echo $term['name']."\n";
+          }
+     } catch (Exception $e) {
             echo $e->getMessage();
-        }
-        if($get_response['status']=='200'){
-            $terms = $get_response['data'];
-            foreach ($terms as $term) {
-                echo $term['name']."\n";
-            }
-        }
-        else {
-            echo 'Unable to proceed. Status Code:'.$get_response['status'];
-        }
-             
+     }                   
   
 With Contact Api, you can perform following functions
 
@@ -155,34 +144,23 @@ User can delete terms of a contact
             */
             try {
                 $get_response = $quentn->terms()->getTerms();
-            } catch (Exception $e) {
-                echo $e->getMessage();
-            }
-            
-            if($get_response['status']=='200'){
                 $terms = $get_response['data'];
                 foreach ($terms as $term) {
                     echo $term['name']."\n";
                 }
-            }
-            else {
-                echo 'Unable to proceed. Status Code:'.$get_response['status'];
-            }
-        
-        //get term by id
-         try {
-                $get_response = $quentn->terms()->findTermById($termId);
             } catch (Exception $e) {
                 echo $e->getMessage();
             }
-            if($get_response['status']=='200'){
-                echo $get_response['data']['name']."\n";
-                echo $get_response['data']['description'];
+                              
+        //get term by id
+         try {
+                $get_response = $quentn->terms()->findTermById($termId);
+                 echo $get_response['data']['name']."\n";
+                 echo $get_response['data']['description'];
+            } catch (Exception $e) {
+                echo $e->getMessage();
             }
-            else {
-                echo 'Unable to proceed. Status Code:'.$get_response['status'];
-            }    
-    
+               
 With Term Api, you can perform following functions
 
 **GET Terms**

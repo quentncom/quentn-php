@@ -286,7 +286,7 @@ To check if user is successfully authorized, you can use following function.
 
 ## Full Quentn API Documentation
 
-[Click here to view our full Quentn documentation.](https://docs.quentn.com/)
+[Click here to view our full Quentn documentation.](https://docs.quentn.com/api/requests/)
 
 ## License
 

@@ -263,7 +263,7 @@ User can find Cutom Field by Id
 
 User can find Cutom Field by name
     
-    findCustomFieldByName((int)cutomFieldName);
+    findCustomFieldByName((int)$cutomFieldName);
 
 [Click here](https://github.com/quentncom/quentn-php/blob/master/examples/custom-field-examples.php/) to view full example of usage of Cutom Field API    
 ## OAuth

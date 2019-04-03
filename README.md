@@ -203,6 +203,69 @@ User can delelte term
                
 [Click here](https://github.com/quentncom/quentn-php/blob/master/examples/term-examples.php/) to view full example of usage of term API
 
+
+### Custom Field API Example
+   
+        require __DIR__ . './vendor/autoload.php'; 
+        $quentn = new Quentn\Quentn([
+            'api_key' => 'API_KEY',
+            'base_url' => 'BASE_URL',
+        ]);
+        
+        /*
+        * TEST API CREDENTIALS.
+        */
+        if (!$quentn->test()) {
+            echo "key doesn't seem to work";
+            exit;
+        }
+        
+            /*
+            * get list of all custom fields
+            */
+            try {
+                  $get_response = $quentn->custom_fields()->getCustomFields();
+                  $custom_fields = $get_response['data'];
+                  foreach ($custom_fields as $custom_field) {
+                     echo $custom_field['field_name']."\n";
+                  }
+                } catch (Exception $e) {
+                    echo $e->getMessage();
+                }
+                              
+        //find custom field by ID
+         try {
+               $get_response = $quentn->custom_fields()->findCustomFieldById($customFieldId);
+               echo $get_response['data']['field_name']."\n";
+               echo $get_response['data']['label']."\n";
+               echo $get_response['data']['description']."\n";
+               echo $get_response['data']['type']."\n";
+               echo $get_response['data']['required']."\n";
+             } catch (Exception $e) {
+                 echo $e->getMessage();
+             }
+               
+With Contact Field Api, you can perform following functions
+
+**GET Custom Fields**
+
+User can find a list of all custom fields
+
+    getCustomFields();
+
+**GET Cutom Field by ID**
+
+User can find Cutom Field by Id
+
+    findCustomFieldById((int)$customFieldId);
+
+**Get Cutom Field by Name**
+
+User can find Cutom Field by name
+    
+    findCustomFieldByName((int)cutomFieldName);
+
+[Click here](https://github.com/quentncom/quentn-php/blob/master/examples/custom-field-examples.php/) to view full example of usage of Cutom Field API    
 ## OAuth
 
 To start your OAuth process, you need to register your app with the Quentn.

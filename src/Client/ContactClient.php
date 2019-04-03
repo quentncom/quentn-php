@@ -1,6 +1,7 @@
 <?php
 namespace Quentn\Client;
-use Quentn\Exceptions\QuentnException;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\ClientException;
 
 class ContactClient extends AbstractQuentnClient {
     
@@ -12,12 +13,21 @@ class ContactClient extends AbstractQuentnClient {
      * @param int $id The contact's ID in the Quentn system.
      * @param string $fields (optional) A comma separated list of field names, which you want to get returned.
      * @return array  Contact Data
+     * @throws GuzzleException
      */
     public function findContactById($id, $fields = NULL){
         if($fields) {
             $fields = "?fields=".$fields;                   
         }
-        return $this->client->call($this->contactEndPoint. $id . $fields);
+        try {
+            return $this->client->call($this->contactEndPoint. $id . $fields);
+        }catch (ClientException $e) {
+            if($e->getCode() == 404){
+                return $this->client->prepareResponse(array(), $e->getCode(), $e->getResponse()->getHeaders());
+            }
+           throw $e;
+        }
+
     }
     
     
@@ -27,12 +37,20 @@ class ContactClient extends AbstractQuentnClient {
      * @param string $mail The contact's email in the Quentn system.
      * @param string $fields (optional) A comma separated list of field names, which you want to get returned.
      * @return array  Contact Data
+     * @throws GuzzleException
      */
     public function findContactByMail($mail, $fields = NULL) {
          if($fields) {             
             $fields = "?fields=".$fields;                   
-        }       
-        return $this->client->call($this->contactEndPoint. $mail . $fields);
+        }
+        try {
+            return $this->client->call($this->contactEndPoint. $mail . $fields);
+        }catch (ClientException $e) {
+            if($e->getCode() == 404){
+                return $this->client->prepareResponse(array(), $e->getCode(), $e->getResponse()->getHeaders());
+            }
+            throw $e;
+        }
     }
     
     
@@ -40,10 +58,13 @@ class ContactClient extends AbstractQuentnClient {
      * Create a new contact
      *
      * @param array $data Contact data must contain either a valid mail field or a full address including the following fields: first_name, family_name, ba_street, ba_city, ba_postal_code.
-     * @return int $id The contact's id of newly created contact in the quentn system
+     * @return array
+     * @throws GuzzleException
      */
-    public function createContact($data){
+    public function createContact($data, $duplicate_check_method = 'email', $duplicate_merge_method = 'update'){
          $data['contact'] = $data;
+         $data['duplicate_check_method'] = $duplicate_check_method;
+         $data['duplicate_merge_method'] = $duplicate_merge_method;
          return $this->client->call($this->contactEndPoint, "POST", $data);
     }
     
@@ -52,7 +73,8 @@ class ContactClient extends AbstractQuentnClient {
      *
      * @param int $id Contact's id of quentn system which you want to update
      * @param array $data contact's fields which you want to update
-     * @return $boolean
+     * @return array
+     * @throws GuzzleException
      */
     public function updateContact($id, $data){
         return $this->client->call($this->contactEndPoint. $id, "PUT", $data);
@@ -62,7 +84,8 @@ class ContactClient extends AbstractQuentnClient {
      * Delete a contact
      *
      * @param int $id Contact's id which you want to delete form quentn system
-     * @return boolean
+     * @return array
+     * @throws GuzzleException
      */
     public function deleteContact($id){
         return $this->client->call($this->contactEndPoint. $id, "DELETE");
@@ -73,9 +96,17 @@ class ContactClient extends AbstractQuentnClient {
      *
      * @param int $id Contact's id which terms you want to get
      * @return array  Contact Terms
+     * @throws GuzzleException
      */
       public function getContactTerms($id){
-        return $this->client->call($this->contactEndPoint. $id . "/terms", "GET");
+          try {
+              return $this->client->call($this->contactEndPoint. $id . "/terms");
+          }catch (ClientException $e) {
+              if($e->getCode() == 404){
+                  return $this->client->prepareResponse(array(), $e->getCode(), $e->getResponse()->getHeaders());
+              }
+              throw $e;
+          }
       }
       
     /**
@@ -83,7 +114,8 @@ class ContactClient extends AbstractQuentnClient {
      *
      * @param int $id Contact's id whose terms you want to overwrite in quentn system
      * @param array $terms List of terms id from quentn system which you want to keep for this contact
-     * @return boolean
+     * @return array
+     * @throws GuzzleException
      */
       public function setContactTerms($id, $terms){
         return $this->client->call($this->contactEndPoint. $id . "/terms", "POST", $terms);
@@ -94,7 +126,8 @@ class ContactClient extends AbstractQuentnClient {
      *
      * @param int $id Contact's id for which you want to add new terms
      * @param array $terms List of terms id from quentn system which you want to add to this contact
-     * @return boolean
+     * @return array
+     * @throws GuzzleException
      */
       public function addContactTerms($id, $terms){
         return $this->client->call($this->contactEndPoint. $id . "/terms", "PUT", $terms);
@@ -105,7 +138,8 @@ class ContactClient extends AbstractQuentnClient {
      *
      * @param int $id Contact's id from which you want to delete terms
      * @param array $terms list of terms you want to delete for this contact
-     * @return boolean
+     * @return array
+     * @throws GuzzleException
      */
       public function deleteContactTerms($id, $terms){
         return $this->client->call($this->contactEndPoint. $id . "/terms", "DELETE", $terms);

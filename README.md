@@ -179,7 +179,7 @@ User can find term by Id
 
 User can find term by name
     
-    findTermByName((int)$termName);
+    findTermByName((string)$termName);
 
 **Create Term**
 
@@ -263,7 +263,7 @@ User can find Cutom Field by Id
 
 User can find Cutom Field by name
     
-    findCustomFieldByName((int)$cutomFieldName);
+    findCustomFieldByName((string)$cutomFieldName);
 
 [Click here](https://github.com/quentncom/quentn-php/blob/master/examples/custom-field-examples.php/) to view full example of usage of Cutom Field API    
 ## OAuth

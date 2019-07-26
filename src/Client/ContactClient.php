@@ -71,7 +71,7 @@ class ContactClient extends AbstractQuentnClient {
 
 
     /**
-     * Create a new multiple contacts
+     * Create multiple contacts in one call
      *
      * @param array $data Contains list of multiple contacts
      * @return array

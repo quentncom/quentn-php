@@ -97,7 +97,6 @@ if (!$quentn->test()) {
     ];
     try {
         $get_response = $quentn->contacts()->createContacts($data);
-        $cid = $get_response['data']['id'];
     } catch (Exception $e) {
         echo $e->getMessage();
     }

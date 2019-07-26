@@ -80,6 +80,12 @@ User can find contact by Email
 User can create contact
 
     createContact((array)$data);
+    
+**Create Multiple Contacts**
+
+User can create multiple contacts in one call
+
+    createContacts((array)$data);
 
 **Update Contact**
 

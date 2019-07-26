@@ -69,6 +69,40 @@ if (!$quentn->test()) {
     }
 
     /*
+    * Create multiple contacts
+    *
+    * we need to provide list of multiple contacts
+    */
+    $data = [
+        [
+            "first_name" => "fisrt_name1",
+            "family_name" => "last_name1",
+            "mail" => "fname1@example.com",
+        ],
+        [
+            "first_name" => "fisrt_name2",
+            "family_name" => "last_name2",
+            "mail" => "fname2@example.com",
+        ],
+        [
+            "first_name" => "fisrt_name3",
+            "family_name" => "last_name3",
+            "mail" => "fname3@example.com",
+        ],
+        [
+            "first_name" => "fisrt_name4",
+            "family_name" => "last_name4",
+            "mail" => "fname4@example.com",
+        ],
+    ];
+    try {
+        $get_response = $quentn->contacts()->createContacts($data);
+        $cid = $get_response['data']['id'];
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+
+    /*
     * Update contact
     * we need to provide contact id, and data
     */

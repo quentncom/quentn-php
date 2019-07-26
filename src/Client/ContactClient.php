@@ -6,6 +6,7 @@ use GuzzleHttp\Exception\ClientException;
 class ContactClient extends AbstractQuentnClient {
     
     private $contactEndPoint = "contact/";
+    private $multipleContactEndPoint = "contacts/";
 
     /**
      * Finds a contact by its ID and returns the specified fields. If no fields are specified, default fields will be returned.
@@ -67,7 +68,22 @@ class ContactClient extends AbstractQuentnClient {
          $data['duplicate_merge_method'] = $duplicate_merge_method;
          return $this->client->call($this->contactEndPoint, "POST", $data);
     }
-    
+
+
+    /**
+     * Create a new multiple contacts
+     *
+     * @param array $data Contains list of multiple contacts
+     * @return array
+     * @throws GuzzleException
+     */
+    public function createContacts($data, $duplicate_check_method = 'email', $duplicate_merge_method = 'update'){
+        $data['contacts'] = $data;
+        $data['duplicate_check_method'] = $duplicate_check_method;
+        $data['duplicate_merge_method'] = $duplicate_merge_method;
+        return $this->client->call($this->multipleContactEndPoint, "POST", $data);
+    }
+
     /**
      * Upeate a contact
      *

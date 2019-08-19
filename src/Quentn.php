@@ -46,15 +46,18 @@ class Quentn implements QuentnBase {
      * @throws GuzzleException
      */
     public function test() {
-        if (!isset($this->baseUrl) || !isset($this->baseUrl)) {
+        if (!isset($this->apiKey) || !isset($this->baseUrl)) {
             return false;
         }
         try {
             $response = $this->call("check-credentials");
-            return true;
+            if (isset($response['data']['success']) && $response['data']['success']) {
+                return true;
+            }
         } catch (Exception $e) {
             return false;
         }
+        return false;
     }
 
     /**

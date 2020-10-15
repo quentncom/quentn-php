@@ -105,7 +105,7 @@ User can Get all terms of a contact
            
     getContactTerms((int)$contactId)
 
-**SET contact terms**
+**SET contact terms** **(DEPRECATED)**
 
 User can **overwrite** all contact terms. By using this POST method you will overwrite the whole terms field.
 

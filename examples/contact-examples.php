@@ -61,8 +61,17 @@ if (!$quentn->test()) {
         "family_name" => "Doe",
         "mail" => "johndoe@example.com",
     ];
+
+    $args = [
+        'duplicate_check_method' => 'email',
+        'duplicate_merge_method' => 'update',
+        'return_fields' => ['first_name', 'mail'],
+        'flood_limit' => 7,
+        'spam_protection' => true,
+    ];
+
     try {
-      $get_response = $quentn->contacts()->createContact($data);
+      $get_response = $quentn->contacts()->createContact($data, $args);
       $cid = $get_response['data']['id'];
     } catch (Exception $e) {
         echo $e->getMessage();
@@ -78,25 +87,38 @@ if (!$quentn->test()) {
             "first_name" => "fisrt_name1",
             "family_name" => "last_name1",
             "mail" => "fname1@example.com",
+            "request_ip" => "123.123.123.123",
         ],
         [
             "first_name" => "fisrt_name2",
             "family_name" => "last_name2",
             "mail" => "fname2@example.com",
+            "request_ip" => "123.123.123.123",
         ],
         [
             "first_name" => "fisrt_name3",
             "family_name" => "last_name3",
             "mail" => "fname3@example.com",
+            "request_ip" => "123.123.123.123",
         ],
         [
             "first_name" => "fisrt_name4",
             "family_name" => "last_name4",
             "mail" => "fname4@example.com",
+            "request_ip" => "123.123.123.123",
         ],
     ];
+
+    $args = [
+        'duplicate_check_method' => 'email',
+        'duplicate_merge_method' => 'update',
+        'return_fields' => ['first_name', 'mail'],
+        'flood_limit' => 7,
+        'spam_protection' => true,
+    ];
+
     try {
-        $get_response = $quentn->contacts()->createContacts($data);
+        $get_response = $quentn->contacts()->createContacts($data, $args);
     } catch (Exception $e) {
         echo $e->getMessage();
     }

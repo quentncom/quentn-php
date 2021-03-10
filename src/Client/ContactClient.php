@@ -58,14 +58,20 @@ class ContactClient extends AbstractQuentnClient {
     /**
      * Create a new contact
      *
-     * @param array $data Contact data must contain either a valid mail field or a full address including the following fields: first_name, family_name, ba_street, ba_city, ba_postal_code.
+     * @param array $contact Contact data must contain either a valid mail field or a full address including the following fields: first_name, family_name, ba_street, ba_city, ba_postal_code.
+     * @param array $args Set settings like return_fields, flood_limit
      * @return array
      * @throws GuzzleException
      */
-    public function createContact($data, $duplicate_check_method = 'email', $duplicate_merge_method = 'update'){
-         $data['contact'] = $data;
-         $data['duplicate_check_method'] = $duplicate_check_method;
-         $data['duplicate_merge_method'] = $duplicate_merge_method;
+    public function createContact($contact, $args = []){
+         $data = [];
+         $data['contact'] = $contact;
+         $data['duplicate_check_method'] = isset($args['duplicate_check_method']) ? $args['duplicate_check_method'] : 'auto';
+         $data['duplicate_merge_method'] = isset($args['duplicate_merge_method']) ? $args['duplicate_merge_method'] : 'update_add';
+         $data['return_fields'] = isset($args['return_fields']) ? $args['return_fields'] : [];
+         $data['flood_limit'] = isset($args['flood_limit']) ? $args['flood_limit'] : 5;
+         $data['spam_protection'] = isset($args['spam_protection']) ? $args['spam_protection'] : true;
+
          return $this->client->call($this->contactEndPoint, "POST", $data);
     }
 
@@ -73,14 +79,20 @@ class ContactClient extends AbstractQuentnClient {
     /**
      * Create multiple contacts in one call
      *
-     * @param array $data Contains list of multiple contacts
+     * @param array $contacts Contains list of multiple contacts
+     * @param array $args Set settings like return_fields, flood_limit
      * @return array
      * @throws GuzzleException
      */
-    public function createContacts($data, $duplicate_check_method = 'email', $duplicate_merge_method = 'update'){
-        $data['contacts'] = $data;
-        $data['duplicate_check_method'] = $duplicate_check_method;
-        $data['duplicate_merge_method'] = $duplicate_merge_method;
+    public function createContacts($contacts, $args=[]){
+        $data = [];
+        $data['contacts'] = $contacts;
+        $data['duplicate_check_method'] = isset($args['duplicate_check_method']) ? $args['duplicate_check_method'] : 'auto';
+        $data['duplicate_merge_method'] = isset($args['duplicate_merge_method']) ? $args['duplicate_merge_method'] : 'update_add';
+        $data['return_fields'] = isset($args['return_fields']) ? $args['return_fields'] : [];
+        $data['flood_limit'] = isset($args['flood_limit']) ? $args['flood_limit'] : 5;
+        $data['spam_protection'] = isset($args['spam_protection']) ? $args['spam_protection'] : true;
+
         return $this->client->call($this->multipleContactEndPoint, "POST", $data);
     }
 

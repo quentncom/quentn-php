@@ -105,14 +105,6 @@ User can Get all terms of a contact
            
     getContactTerms((int)$contactId)
 
-**SET contact terms**
-
-User can **overwrite** all contact terms. By using this POST method you will overwrite the whole terms field.
-
-**Attention:** This will delete all your existing terms. If you want to add terms please use *addContactTerms*.
-
-    setContactTerms((int)$contactId, (array)$terms);
-
 **Add Contact terms**
 
 User can add term to a contact

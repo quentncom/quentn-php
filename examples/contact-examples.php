@@ -5,6 +5,15 @@ $quentn = new Quentn\Quentn([
     'base_url' => 'BASE_URL',
 ]);
 
+//add additional headers
+$quentn->setHeader('xyz', 'xyz');
+
+//add multiple headers
+$headers = [
+    'xyz' => 'xyz',
+    'xyz' => 'xyz',
+];
+$quentn->setHeaders($headers);
 
 //TEST API CREDENTIALS.
 if (!$quentn->test()) {

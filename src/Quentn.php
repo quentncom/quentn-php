@@ -24,6 +24,9 @@ class Quentn implements QuentnBase {
     private $customFieldClient;
     private $oauthClient;
 
+    /** $var array HTTP header collection */
+    protected $headers = [];
+
     /**
      * QuentnPhpSdkClient constructor.
      * @param array $config
@@ -36,6 +39,12 @@ class Quentn implements QuentnBase {
         if (isset($config['base_url'])) {
             $this->baseUrl = $config['base_url'];
         }
+
+        $this->headers = [
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->apiKey,
+        ];
+
         $this->httpClient = new Client();
     }
 
@@ -99,13 +108,11 @@ class Quentn implements QuentnBase {
      * @throws GuzzleException
      */
     public function call($endPoint, $method = "GET", $vars = null) {
-        //build request       
+        //build request
         $request_arr = [
-            "headers" => [
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $this->apiKey,
-            ]
+            "headers" => $this->headers
         ];
+
         if (!empty($vars)) {
             $request_arr["json"] = $vars;
         }
@@ -218,6 +225,46 @@ class Quentn implements QuentnBase {
      */
     public function oauth() {
         return ($this->oauthClient ? $this->oauthClient : $this->oauthClient = new OAuthClient($this));
+    }
+
+    /**
+     * Set http header
+     *
+     * @param string $header
+     * @param string $value
+     */
+    public function setHeader($header, $value) {
+        $header = trim($header);
+        $this->headers[$header] = trim($value);
+    }
+
+    /**
+     * Set http headers
+     *
+     * @param array $headers
+     */
+    public function setHeaders($headers) {
+        foreach ($headers as $header => $value) {
+            $this->setHeader($header, $value);
+        }
+    }
+
+    /**
+     * Get http headers
+     *
+     * @return array
+     */
+    public function getHeaders() {
+        return $this->headers;
+    }
+
+    /**
+     * Delete header value
+     *
+     * @param string $header
+     */
+    public function deleteHeader($key) {
+        unset($this->headers[$key]);
     }
 
 }

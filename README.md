@@ -32,6 +32,9 @@ Response include three main elements, data, status and rateLimits
         'base_url' => 'BASE_URL',
     ]);
     
+    //add additional headers
+    $quentn->setHeader('xyz', 'xyz');
+    
     if (!$quentn->test()) {
         echo "key doesn't seem to work";
         exit;

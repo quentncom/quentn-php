@@ -6,12 +6,12 @@ $quentn = new Quentn\Quentn([
 ]);
 
 //add additional headers
-$quentn->setHeader('xyz', 'xyz');
+$quentn->setHeader('X-sender-source', 'mybusinessid');
 
 //add multiple headers
 $headers = [
-    'xyz' => 'xyz',
-    'xyz' => 'xyz',
+    'X-sender-source' => 'mybusinessid',
+    'X-sender-source-key' => 'cdTHikGOQQuiIqo2VcCmkyIqIPq82oUm7juC9wqnxY',
 ];
 $quentn->setHeaders($headers);
 

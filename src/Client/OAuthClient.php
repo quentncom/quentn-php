@@ -95,14 +95,17 @@ class OAuthClient extends AbstractQuentnClient {
      * @param string $code  the authorization code
      * @return array it contains api-key and base-url
      */
-    public function getAccessToken($code) {
+    public function getAccessToken($code, $app_context = null) {
         $params = array(
             'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
             'redirect_uri' => $this->redirectUri,
             'code' => $code,
-            'grant_type' => $this->grantType,
+            'grant_type' => $this->grantType
         );
+        if (isset($app_context) && is_string($app_context)) {
+            $params['app_context'] = $app_context;
+        }
         return $this->client->callOauth($this->oauthBaseUrl . 'request', json_encode($params));
     }
 
@@ -110,14 +113,14 @@ class OAuthClient extends AbstractQuentnClient {
      * @param string $state
      * @return bool
      */
-    public function authorize($state = null) {
+    public function authorize($state = null, $app_context = null) {
         $return = false;
         if (!$state) {
             $state = hash('sha256', session_id());
         }
 
         if (isset($_GET["code"]) && isset($_GET["state"]) && $_GET["state"] == $state) {
-            $response = $this->getAccessToken($_GET["code"]);
+            $response = $this->getAccessToken($_GET["code"], $app_context);
 
             if (isset($response["base-url"]) && isset($response["api-key"])) {
                 $this->client->setBaseUrl($response["base-url"]);

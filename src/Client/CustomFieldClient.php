@@ -55,4 +55,38 @@ class CustomFieldClient extends AbstractQuentnClient {
         }
 
     }
+
+    /**
+     * Create new custom field
+     *
+     * @param array $data Custom field data.
+     * @return array
+     * @throws GuzzleException
+     */
+    public function createCustomField($data){
+        return $this->client->call($this->CustomFieldEndPoint, "POST", $data);
+    }
+
+    /**
+     * Update custom field
+     *
+     * @param string $field custom field
+     * @param array $data custom field data
+     * @return array
+     * @throws GuzzleException
+     */
+    public function updateCustomField($field, $data){
+        return $this->client->call($this->CustomFieldEndPoint. $field, "PUT", $data);
+    }
+
+    /**
+     * Delete custom field
+     *
+     * @param string $field Custom field name which you want to delete from quentn system
+     * @return array
+     * @throws GuzzleException
+     */
+    public function deleteCustomField($field){
+        return $this->client->call($this->CustomFieldEndPoint. $field, "DELETE");
+    }
 }

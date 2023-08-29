@@ -64,3 +64,48 @@ if (!$quentn->test()) {
     } catch (Exception $e) {
         echo $e->getMessage();
     }
+
+    /*
+    * Create custom field
+    */
+    $data = [
+        "label" => "My new textfield",
+        "description" => "Example description",
+        "field_type" => "text",
+        "max_length" => 128,
+    ];
+
+    try {
+        $get_response = $quentn->custom_fields()->createCustomField($data, $args);
+        $field_name = $get_response['data']['field_name'];
+        $field_id = $get_response['data']['field_id'];
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+
+    /*
+    * Update custom field
+    * we need to provide field name, and data
+    */
+    $field_name = 'field_my_new_textfield';
+    $data = [
+        "label" => "My renamed textfield",
+        "description" => "Example description",
+        "size" => 10,
+    ];
+    try {
+        $get_response = $quentn->custom_fields()->updateCustomField($field_name, $data);
+        echo "Field is updated successfully";
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+
+    /*
+    * Delete custom field
+    */
+    try {
+        $get_response = $quentn->custom_fields()->deleteCustomField($field_name);
+        echo "Field is deleted successfully";
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }

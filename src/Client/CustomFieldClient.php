@@ -75,8 +75,8 @@ class CustomFieldClient extends AbstractQuentnClient {
      * @return array
      * @throws GuzzleException
      */
-    public function updateCustomField($field, $data){
-        return $this->client->call($this->CustomFieldEndPoint. $field, "PUT", $data);
+    public function updateCustomField($field_name, $data){
+        return $this->client->call($this->CustomFieldEndPoint. $field_name, "PUT", $data);
     }
 
     /**
@@ -86,7 +86,7 @@ class CustomFieldClient extends AbstractQuentnClient {
      * @return array
      * @throws GuzzleException
      */
-    public function deleteCustomField($field){
-        return $this->client->call($this->CustomFieldEndPoint. $field, "DELETE");
+    public function deleteCustomField($field_name){
+        return $this->client->call($this->CustomFieldEndPoint. $field_name, "DELETE");
     }
 }

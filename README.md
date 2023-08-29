@@ -278,6 +278,24 @@ User can find Cutom Field by name
     
     findCustomFieldByName((string)$cutomFieldName);
 
+**Create Cutom Field**
+
+User can create cutom field
+
+    createCustomField((array)$data);
+
+**Update Cutom Field**
+
+User can update cutom field
+
+    updateCustomField((string)$cutomFieldName, (array)$data);
+
+**Delete Cutom Field**
+
+User can delete cutom field
+
+    deleteCustomField((string)$cutomFieldName);
+
 [Click here](https://github.com/quentncom/quentn-php/blob/master/examples/custom-field-examples.php/) to view full example of usage of Cutom Field API    
 ## OAuth
 

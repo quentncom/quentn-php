@@ -76,7 +76,7 @@ if (!$quentn->test()) {
     ];
 
     try {
-        $get_response = $quentn->custom_fields()->createCustomField($data, $args);
+        $get_response = $quentn->custom_fields()->createCustomField($data);
         $field_name = $get_response['data']['field_name'];
         $field_id = $get_response['data']['field_id'];
     } catch (Exception $e) {

@@ -33,7 +33,7 @@ class OAuthClient extends AbstractQuentnClient {
      */
     public function __construct(Quentn $client) {
         parent::__construct($client);
-        $oauth_conf = require_once __DIR__ . './../config.php';
+        $oauth_conf = require_once __DIR__ . '/../config.php';
         $this->oauthBaseUrl = $oauth_conf["base_url"];
     }
 
